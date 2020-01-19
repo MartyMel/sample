@@ -1,0 +1,103 @@
+package net.wmfs.coalesce.aa.access.controller;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+
+import net.wmfs.coalesce.aa.access.service.AAAccessService;
+import net.wmfs.coalesce.aa.access.service.MiscService;
+import net.wmfs.coalesce.aa.access.vo.AccessVO;
+
+@Controller
+public class ApplicationController {
+
+	@SuppressWarnings("unused")
+	private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
+
+	@Autowired
+	public AAAccessService aaAccessService;
+	
+	@Autowired
+	public MiscService miscService;
+
+	@Value("${net.wmfs.coalesce-ws.url}")
+	private String webServiceUrl;
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView access(ModelAndView mav) {
+		mav.setViewName("access");
+		return mav;
+	}
+
+	@RequestMapping(value = "/{empNo}/access.html", method = RequestMethod.GET)
+	public ModelAndView accessByEmpNo(@PathVariable("empNo") Long empNo,
+			@PageableDefault(size = 10) Pageable pageRequest, ModelAndView mav) {
+		mav.setViewName("access");
+
+		List<AccessVO> accessList = aaAccessService.findByEmpNo(pageRequest, empNo);
+
+		mav.addObject("empNo", empNo);
+		mav.addObject("accessList", accessList);
+		mav.addObject("accessListSize", accessList.size());
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/{empNo}/{taskGroupId}/{organisationId}/{dutyTypeId}/addAccess.html", method = RequestMethod.GET)
+	public ModelAndView addAccess(@PathVariable("empNo") Long empNo, @PathVariable("taskGroupId") Long taskGroupId,
+			@PathVariable("organisationId") Long organisationId, @PathVariable("dutyTypeId") Long dutyTypeId,
+			@RequestParam(name = "isApproved", required = false) String isApproved,
+			@PageableDefault(size = 10) Pageable pageRequest, ModelAndView mav) {
+		mav.setViewName("access");
+
+		if (isApproved != null) {
+			mav.addObject("approved", aaAccessService.updateIsApprove(empNo, taskGroupId, organisationId, dutyTypeId));
+		}
+
+		List<AccessVO> acessList = aaAccessService.findByEmpNo(pageRequest, empNo);
+
+		mav.addObject("empNo", empNo);
+		mav.addObject("taskGroup", miscService.getGroupName(taskGroupId));
+		mav.addObject("organisation", miscService.getOrgName(organisationId));
+		mav.addObject("dutyType", miscService.getDutyTypeName(dutyTypeId));
+		mav.addObject("taskGroupId", taskGroupId);
+		mav.addObject("organisationId", organisationId);
+		mav.addObject("dutyTypeId", dutyTypeId);
+		mav.addObject("justification",
+				aaAccessService.getJustification(empNo, taskGroupId, organisationId, dutyTypeId));
+
+		mav.addObject("accessList", acessList);
+		mav.addObject("accessListSize", acessList.size());
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/updateAccess.html", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateAccess(@RequestParam("id") Long id, @RequestParam("taskGroupId") Long taskGroupId,
+			@RequestParam("orgId") Long organisationId, @RequestParam("dutyTypeId") Long dutyTypeId,
+			@RequestParam("justification") String justification, @RequestParam("isApproved") String isApproved) {
+
+		aaAccessService.updateAAAccess(id, taskGroupId, organisationId, dutyTypeId, justification, isApproved);
+	}
+
+	@RequestMapping("/deleteAccess.html")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateAccess(@RequestParam("id") Long id) {
+
+		aaAccessService.deleteById(id);
+	}
+}

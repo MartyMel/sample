@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>AA access</title>
+
+<link type="image/png" th:href="@{/images/table-16x16.png}" rel="icon"
+	sizes="16x16" />
+<link type="image/png" th:href="@{/images/table-32x32.png}" rel="icon"
+	sizes="32x32" />
+<link type="image/png" th:href="@{/images/table-48x48.png}" rel="icon"
+	sizes="48x48" />
+
+<link rel="stylesheet"
+	th:href="@{/lib/bootstrap-3.3.7/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/access.css}" />
+</head>
+<body>
+	<input type="hidden" id="csrfParameterName"
+		th:value="${_csrf.parameterName}" />
+	<input type="hidden" id="csrfToken" th:value="${_csrf.token}" />
+
+	<div class="container">
+
+		<div class="row hidden-print">
+			<div class="col-sm-6" style="margin-top: 1em; text-align: left;">
+				<a
+					th:href="${@environment.getProperty('net.wmfs.cas.client.contextRootUrl')}">Go
+					Home</a>
+			</div>
+			<div class="col-sm-6" style="margin-top: 1em; text-align: right;">
+				<span sec:authentication="principal.displayName"></span> | <a
+					th:href="${@environment.getProperty('net.wmfs.cas.server.secureUrl') + '/logout'}">Log
+					out</a>
+			</div>
+		</div>
+
+		<div>
+			<h2>Activity Assistant Access - Error</h2>
+		</div>
+		<h3>Error Details</h3>
+
+		<table class="table table-striped">
+
+			<tbody>
+				<tr>
+					<td>TimeStamp</td>
+					<td th:text="${timestamp}"></td>
+				</tr>
+				<tr>
+					<td>Status</td>
+					<td th:text="${status}"></td>
+				</tr>
+				<tr>
+					<td>Message</td>
+					<td th:text="${message}"></td>
+				</tr>
+				<tr>
+					<td>Error</td>
+					<td th:text="${error}"></td>
+				</tr>
+				<tr>
+					<td>Path</td>
+					<td th:text="${path}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+</body>
+</html>

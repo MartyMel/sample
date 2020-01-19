@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>AA access</title>
+
+<link type="image/png" th:href="@{/images/table-16x16.png}" rel="icon"
+	sizes="16x16" />
+<link type="image/png" th:href="@{/images/table-32x32.png}" rel="icon"
+	sizes="32x32" />
+<link type="image/png" th:href="@{/images/table-48x48.png}" rel="icon"
+	sizes="48x48" />
+
+<link rel="stylesheet"
+	th:href="@{/lib/bootstrap-3.3.7/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/access.css}" />
+</head>
+<body>
+	<input type="hidden" id="csrfParameterName"
+		th:value="${_csrf.parameterName}" />
+	<input type="hidden" id="csrfToken" th:value="${_csrf.token}" />
+	<div class="container">
+
+		<div class="row hidden-print">
+			<div class="col-sm-6">
+				<h1>Activity Assistant Access</h1>
+			</div>
+			<div class="col-sm-6" style="margin-top: 1em; text-align: right;">
+				<span sec:authentication="principal.displayName"></span> | <a
+					th:href="${@environment.getProperty('net.wmfs.cas.server.secureUrl') + '/logout'}">Log
+					out</a>
+			</div>
+		</div>
+		<div class="row bottom-margin-spacer">
+			<div class="col-sm-12">
+				<input class="form-control" id="myInput" type="text"
+					placeholder="Please enter the Employee Number" autofocus="autofocus" /> <br /> <label
+					id="approvalLabel"
+					th:text="'Access Details for the Employee: (' + ${empNo} + ') has been saved'"
+					style="display: none;"></label>
+
+				<table id="approvalTable" th:if="${taskGroup != null}"
+					class="table table-bordered">
+					<tr>
+						<td style="width: 20%"><label>Employee Number</label></td>
+						<td><input id="empNo" type="text" class="form-control"
+							th:value="${empNo}" disabled="disabled" /></td>
+					</tr>
+					<tr>
+						<td><label>Task Group</label></td>
+						<td><div class="dropdown">
+								<button class="btn dropdown-toggle" type="button"
+									th:id="taskGroup" data-toggle="dropdown"
+									th:value="${taskGroupId}" th:text="${taskGroup}"
+									disabled="disabled"></button>
+							</div></td>
+					</tr>
+					<tr>
+						<td><label>Organisation</label></td>
+						<td><button class="btn dropdown-toggle" type="button"
+								th:id="organisation" data-toggle="dropdown"
+								th:value="${organisationId}" th:text="${organisation}"
+								disabled="disabled"></button></td>
+					</tr>
+					<tr>
+						<td><label>Duty Type</label></td>
+						<td><button class="btn dropdown-toggle" type="button"
+								th:id="dutyType" data-toggle="dropdown" th:value="${dutyTypeId}"
+								th:text="${dutyType}" disabled="disabled"></button></td>
+					</tr>
+					<tr>
+						<td><label>Justification</label></td>
+						<td><textarea th:text="${justification}" disabled="disabled"
+								class="form-control rounded-0" rows="3"></textarea></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="left"><button th:id="approveButton"
+								type="button" class="btn btn-success btn-md"
+								onclick="approveAccess()">Approve</button>
+							<button type="button" th:id="rejectButton"
+								class="btn btn-danger btn-md">Reject</button></td>
+					</tr>
+				</table>
+
+				<label th:if="${accessListSize > 0}"
+					th:text="'Access Details for the Employee: ' + ${empNo}"></label> <input
+					type="hidden" id="empNo" th:value="${empNo}" />
+
+				<table th:if="${accessListSize > 0}" id="accessTable"
+					class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th class="col-md-1" scope="col">Task Group</th>
+							<th class="col-md-1" scope="col">Organisation</th>
+							<th class="col-md-1" scope="col">Duty Type</th>
+							<th class="col-md-1" scope="col">Justification</th>
+							<th class="col-md-1" scope="col" />
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="access : ${accessList}">
+							<td th:id="'accessTaskGroup' + ${access.id}" scope="row"
+								th:text="${access.taskGroup}" />
+							<td th:id="'accessOrg' + ${access.id}" th:text="${access.org}" />
+							<td th:id="'accessDutyType' + ${access.id}"
+								th:text="${access.dutyType}" />
+							<td th:id="'accessJustification' + ${access.id}"
+								th:text="${access.justification}" />
+							<td><input type="hidden"
+								th:id="'accessIsApproved' + ${access.id}"
+								th:value="${access.isApproved}" /><input
+								th:id="'accessId' + ${access.id}" class="accessId" type="hidden"
+								th:value="${access.id}" /><span
+								th:id="'editAccess' + ${access.id}"
+								class="glyphicon glyphicon-edit"></span><span
+								th:id="'deleteAccess' + ${access.id}"
+								class="glyphicon glyphicon-trash"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="editModal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">AA Access Error</h5>
+				</div>
+				<div class="modal-body">
+					<p>Please enter the required data</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">AA Access - Delete</h5>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete this record.</p>
+					<table th:id="deleteModalTable" class="table table-bordered">
+						<tr>
+							<td style="width: 20%"><label>Employee Number</label></td>
+							<td><input th:id="empNo" type="text" class="form-control"
+								th:value="${empNo}" disabled="disabled" /><input th:id="idEdit"
+								type="hidden" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td><label>Task Group</label></td>
+							<td><div class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										th:id="taskGroupBtn" data-toggle="dropdown"
+										value="Select Task Group">Select Task Group</button>
+								</div></td>
+						</tr>
+						<tr>
+							<td><label>Organisation</label></td>
+							<td><div class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										th:id="orgBtn" data-toggle="dropdown">Select
+										Organisation</button>
+								</div></td>
+						</tr>
+						<tr>
+							<td><label>Duty Type</label></td>
+							<td><div class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										th:id="dutyTypeBtn" data-toggle="dropdown">Select
+										Duty Type</button>
+								</div></td>
+						</tr>
+						<tr>
+							<td><label>Justification</label></td>
+							<td><textarea th:id="justificationTA"
+									class="form-control rounded-0" rows="3" disabled="disabled"></textarea></td>
+						</tr>
+
+						<tr>
+							<td colspan="2" align="left"><button th:id="deleteButton"
+									type="button" class="btn btn-success btn-md">Delete</button>
+								<button type="button" th:id="cancelButton"
+									class="btn btn-danger btn-md">Cancel</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="editAccessModal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">AA Access - Edit</h5>
+				</div>
+				<div class="modal-body">
+					<table th:id="editTable" class="table table-bordered">
+						<tr>
+							<td style="width: 20%"><label>Employee Number</label></td>
+							<td><input th:id="empNoEdit" type="text"
+								class="form-control" th:value="${empNo}" disabled="disabled" /><input
+								th:id="idEdit" type="hidden" class="form-control" /></td>
+						</tr>
+						<tr>
+							<td><label>Task Group</label></td>
+							<td><div class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										th:id="taskGroupBtn" data-toggle="dropdown"
+										value="Select Task Group">Select Task Group</button>
+									<ul th:id="taskGroupUl" class="dropdown-menu scrollable-menu"
+										role="menu" aria-labelledby="taskGroupBtn">
+									</ul>
+								</div></td>
+						</tr>
+						<tr>
+							<td><label>Organisation</label></td>
+							<td><div class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										th:id="orgBtn" data-toggle="dropdown">Select
+										Organisation</button>
+
+									<ul th:id="orgUl" class="dropdown-menu scrollable-menu"
+										role="menu" aria-labelledby="orgBtn">
+									</ul>
+								</div></td>
+						</tr>
+						<tr>
+							<td><label>Duty Type</label></td>
+							<td><div class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										th:id="dutyTypeBtn" data-toggle="dropdown">Select
+										Duty Type</button>
+
+									<ul th:id="dutyTypeUl" class="dropdown-menu scrollable-menu"
+										role="menu" aria-labelledby="dutyTypeBtn">
+									</ul>
+								</div></td>
+						</tr>
+						<tr>
+							<td><label>Justification</label></td>
+							<td><textarea th:id="justificationTA"
+									class="form-control rounded-0" rows="3"></textarea></td>
+						</tr>
+						<tr>
+							<td><label>Is Approved</label></td>
+							<td><label class="switch"> <input type="checkbox"
+									th:id="isApprovedCB" /> <span class="slider round"></span>
+							</label></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="left"><button th:id="saveButton"
+									type="button" class="btn btn-success btn-md">Save</button>
+								<button type="button" th:id="cancelButton"
+									class="btn btn-danger btn-md">Cancel</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script type="text/javascript" th:src="@{/lib/jquery-3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/access.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/lib/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

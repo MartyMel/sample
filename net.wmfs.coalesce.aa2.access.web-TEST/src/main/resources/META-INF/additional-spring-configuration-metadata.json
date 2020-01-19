@@ -1,0 +1,87 @@
+{"properties": [
+  {
+    "name": "net.wmfs.coalesce-ws.url",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.coalesce-ws.url'"
+  },
+  {
+    "name": "aa.todo.groupsServiceName",
+    "type": "java.lang.String",
+    "description": "A description for 'aa.todo.groupsServiceName'"
+  },
+  {
+    "name": "aa.todo.locationServiceName",
+    "type": "java.lang.String",
+    "description": "A description for 'aa.todo.locationServiceName'"
+  },
+  {
+    "name": "aa.todo.dutyTypeServiceName",
+    "type": "java.lang.String",
+    "description": "A description for 'aa.todo.dutyTypeServiceName'"
+  },
+  {
+    "name": "net.wmfs.cas.client.contextRootUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.cas.client.contextRootUrl'"
+  },
+  {
+    "name": "net.wmfs.ldap.server",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.server'"
+  },
+  {
+    "name": "net.wmfs.ldap.port",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.port'"
+  },
+  {
+    "name": "net.wmfs.ldap.baseDN",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.baseDN'"
+  },
+  {
+    "name": "net.wmfs.ldap.userDN",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.userDN'"
+  },
+  {
+    "name": "net.wmfs.ldap.password",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.password'"
+  },
+  {
+    "name": "net.wmfs.ldap.userSearchBase",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.userSearchBase'"
+  },
+  {
+    "name": "net.wmfs.ldap.userSearchFilter",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.userSearchFilter'"
+  },
+  {
+    "name": "net.wmfs.ldap.groupSearchBase",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.ldap.groupSearchBase'"
+  },
+  {
+    "name": "net.wmfs.cas.server.rootUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.cas.server.rootUrl'"
+  },
+  {
+    "name": "net.wmfs.cas.server.secureUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.cas.server.secureUrl'"
+  },
+  {
+    "name": "net.wmfs.cas.server.id",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.cas.server.id'"
+  },
+  {
+    "name": "net.wmfs.cas.server.rootUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.cas.server.rootUrl'"
+  }
+]}

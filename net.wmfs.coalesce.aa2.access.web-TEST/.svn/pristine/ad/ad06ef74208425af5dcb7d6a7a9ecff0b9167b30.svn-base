@@ -1,0 +1,86 @@
+package net.wmfs.coalesce.aa.access.vo;
+
+public class AccessVO {
+
+	public AccessVO(Long id, Long empNo, String taskGroup, String org, String dutyType, String justification,
+			String isApproved) {
+		super();
+		this.id = id;
+		this.empNo = empNo;
+		this.taskGroup = taskGroup;
+		this.org = org;
+		this.dutyType = dutyType;
+		this.justification = justification;
+		this.isApproved = isApproved;
+	}
+
+	private Long id;
+
+	private Long empNo;
+
+	private String taskGroup;
+
+	private String org;
+
+	private String dutyType;
+
+	private String justification;
+
+	private String isApproved;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(Long empNo) {
+		this.empNo = empNo;
+	}
+
+	public String getTaskGroup() {
+		return taskGroup;
+	}
+
+	public void setTaskGroup(String taskGroup) {
+		this.taskGroup = taskGroup;
+	}
+
+	public String getOrg() {
+		return org;
+	}
+
+	public void setOrg(String org) {
+		this.org = org;
+	}
+
+	public String getDutyType() {
+		return dutyType;
+	}
+
+	public void setDutyType(String dutyType) {
+		this.dutyType = dutyType;
+	}
+
+	public String getJustification() {
+		return justification;
+	}
+
+	public void setJustification(String justification) {
+		this.justification = justification;
+	}
+
+	public String getIsApproved() {
+		return isApproved;
+	}
+
+	public void setIsApproved(String isApproved) {
+		this.isApproved = isApproved;
+	}
+}

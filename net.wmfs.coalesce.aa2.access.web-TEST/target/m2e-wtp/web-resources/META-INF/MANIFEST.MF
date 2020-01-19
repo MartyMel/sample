@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: Activity Assistant Access Manager
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Martina.Henry
+Implementation-Vendor-Id: net.wmfs.coalesce.aa2
+Build-Jdk: 1.8.0_45
+Implementation-URL: http://projects.spring.io/spring-boot/net.wmfs.coa
+ lesce.aa2.access/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

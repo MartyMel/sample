@@ -1,0 +1,45 @@
+server.context-path = /aa-test
+server.port = 8280
+
+spring.main.banner-mode = off
+
+spring.mvc.servlet.load-on-startup = 1
+
+# configure database connection and hibernate
+spring.datasource.driver-class-name = oracle.jdbc.OracleDriver
+spring.datasource.url = jdbc:oracle:thin:@itrixdb.wmfs.net:1521:itrix
+spring.datasource.username = irmis
+spring.datasource.password = irmis
+spring.datasource.initialize = false
+
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults = false
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.Oracle10gDialect
+spring.jpa.properties.hibernate.format_sql = false
+spring.jpa.hibernate.ddl-auto = none
+spring.jpa.show-sql = true
+
+net.wmfs.coalesce-ws.url = http://trng-apps.wmfs.net:8280/coalesce-ws
+aa.todo.groupsServiceName = GET_TASK_GROUPS_LIST
+aa.todo.locationServiceName = GET_ORGANISATIONS_LIST
+aa.todo.dutyTypeServiceName = GET_DUTY_TYPES_LIST
+
+# configure cas single sign on
+net.wmfs.cas.client.contextRootUrl = http://trng-apps.wmfs.net:8280/aa-test
+net.wmfs.cas.server.rootUrl = http://trng-apps.wmfs.net:8280/cas-server
+net.wmfs.cas.server.secureUrl = https://trng-apps.wmfs.net:8443/cas-server
+net.wmfs.cas.server.id = trng-apps
+
+# configure ldap server interaction
+net.wmfs.ldap.server = ldap.wmfs.net
+net.wmfs.ldap.port = 389
+net.wmfs.ldap.baseDN = dc=wmfs,dc=net
+net.wmfs.ldap.userDN = cn=Giles Test,ou=User Accounts,ou=WMFS,dc=wmfs,dc=net
+net.wmfs.ldap.password = control456
+net.wmfs.ldap.userSearchBase = ou=User Accounts,ou=WMFS
+net.wmfs.ldap.userSearchFilter = (sAMAccountName={0})
+net.wmfs.ldap.groupSearchBase = ou=Group Accounts,ou=WMFS
+
+# configure logging
+logging.level.org.springframework.web = INFO
+logging.level.org.hibernate = ERROR
+logging.level.net.wmfs = DEBUG

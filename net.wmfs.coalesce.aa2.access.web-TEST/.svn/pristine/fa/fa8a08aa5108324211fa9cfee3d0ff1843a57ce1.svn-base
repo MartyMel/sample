@@ -1,0 +1,94 @@
+package net.wmfs.coalesce.aa.access.db.vo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "cs_tdl_access", schema = "irmis")
+public class AAAccess {
+
+	@Id
+	@Column(name = "acc_id", nullable = false)
+	@SequenceGenerator(name = "SequenceIdGenerator", sequenceName = "CS_TDL_ACCESS_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SequenceIdGenerator")
+	private Long id;
+	
+	@Column(name = "acc_emp_no")
+	private Long empNo;
+	
+	@Column(name = "acc_task_group_id")
+	private Long taskGroupId;
+	
+	@Column(name = "acc_org_id")
+	private Long orgId;
+	
+	@Column(name = "acc_duty_type_id")
+	private Long dutyTypeId;
+	
+	@Column(name = "acc_justification")
+	private String justification;
+	
+	@Column(name = "acc_is_approved")
+	private String isApproved;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(Long empNo) {
+		this.empNo = empNo;
+	}
+
+	public String getJustification() {
+		return justification;
+	}
+
+	public void setJustification(String justification) {
+		this.justification = justification;
+	}
+
+	public String getIsApproved() {
+		return isApproved;
+	}
+
+	public void setIsApproved(String isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public Long getTaskGroupId() {
+		return taskGroupId;
+	}
+
+	public void setTaskGroupId(Long taskGroupId) {
+		this.taskGroupId = taskGroupId;
+	}
+
+	public Long getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
+	}
+
+	public Long getDutyTypeId() {
+		return dutyTypeId;
+	}
+
+	public void setDutyTypeId(Long dutyTypeId) {
+		this.dutyTypeId = dutyTypeId;
+	}
+}

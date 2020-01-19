@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>AA access</title>
+</head>
+<body>
+
+	<input type="hidden" id="csrfParameterName"
+		th:value="${_csrf.parameterName}" />
+	<input type="hidden" id="csrfToken" th:value="${_csrf.token}" />
+	<div class="container">
+
+		<div class="row hidden-print">
+			<div class="col-sm-6" style="margin-top: 1em; text-align: left;">
+				<a
+					th:href="${@environment.getProperty('net.wmfs.cas.client.contextRootUrl')}">Go
+					Home</a>
+			</div>
+			<div class="col-sm-6" style="margin-top: 1em; text-align: right;">
+				<span sec:authentication="principal.displayName"></span> | <a
+					th:href="${@environment.getProperty('net.wmfs.cas.server.secureUrl') + '/logout'}">Log
+					out</a>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<h2>Activity Assistant Access - Error</h2>
+		</div>
+	</div>
+	<div class="row bottom-margin-spacer">
+		<p th:text="${error}">error</p>
+		<p th:text="${message}">message</p>
+	</div>
+	<script type="text/javascript" th:src="@{/lib/jquery-3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/access.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/lib/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

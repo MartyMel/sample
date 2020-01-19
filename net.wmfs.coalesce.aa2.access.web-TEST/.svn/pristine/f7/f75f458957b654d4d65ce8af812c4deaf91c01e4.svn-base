@@ -1,0 +1,75 @@
+package net.wmfs;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import net.wmfs.coalesce.aa.access.dao.MiscDao;
+import net.wmfs.coalesce.aa.access.db.vo.AAAccess;
+import net.wmfs.coalesce.aa.access.repo.AAAccessRepo;
+import net.wmfs.coalesce.aa.access.service.AAAccessService;
+import net.wmfs.coalesce.aa.access.vo.AccessVO;
+
+@RunWith(SpringRunner.class)
+@EnableAutoConfiguration
+public class AAAccessServiceTest {
+
+	static class AAAccessServiceTestContextConfiguration{
+		
+		@Bean
+		public AAAccessService aaAccessService(){
+			return new AAAccessService();
+		}
+	}
+		
+	@Autowired(required = true)
+	private AAAccessService aaAccessService;
+	
+	@Autowired
+	private AAAccessRepo aaAccessRepo;
+	
+	@Autowired
+	private MiscDao miscDao;
+	
+	private AAAccess aaAccess1;
+	
+	@Before
+	public void before(){
+		aaAccess1 = new AAAccess();
+		aaAccess1.setEmpNo(1111L);
+		aaAccess1.setTaskGroupId(1989L);
+		aaAccess1.setOrgId(10001L);
+		aaAccess1.setDutyTypeId(null);
+		aaAccess1.setJustification("Justification Tested");
+		aaAccess1.setIsApproved(null);
+		
+		List<AAAccess> aaAccessList = new ArrayList<>();
+		aaAccessList.add(aaAccess1);
+		
+		Mockito.when(aaAccessRepo.findByEmpNoOrderByIsApprovedDesc(aaAccess1.getEmpNo())).thenReturn(aaAccessList);
+	}
+	
+	@Test
+	public void contextLoads() throws Exception {
+
+		assertThat(aaAccessRepo).isNotNull();
+		assertThat(aaAccessService).isNotNull();
+	}
+	
+	@Test
+	public void whenFindByEmpNo_thenAccessShouldBeFound(){
+		AccessVO foundAAAccess = aaAccessService.findByEmpNo(null, aaAccess1.getEmpNo()).get(0);
+		
+		assertThat(foundAAAccess.getEmpNo()).isEqualTo(aaAccess1.getEmpNo());
+	}
+}

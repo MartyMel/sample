@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "net.wmfs.coalesce-ws.url",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.coalesce-ws.url'"
+  },
+  {
+    "name": "aa.todo.groupsServiceName",
+    "type": "java.lang.String",
+    "description": "A description for 'aa.todo.groupsServiceName'"
+  },
+  {
+    "name": "aa.todo.locationServiceName",
+    "type": "java.lang.String",
+    "description": "A description for 'aa.todo.locationServiceName'"
+  },
+  {
+    "name": "aa.todo.dutyTypeServiceName",
+    "type": "java.lang.String",
+    "description": "A description for 'aa.todo.dutyTypeServiceName'"
+  },
+  {
+    "name": "net.wmfs.cas.client.contextRootUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'net.wmfs.cas.client.contextRootUrl'"
+  }
+]}

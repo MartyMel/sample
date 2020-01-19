@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>AA access</title>
+
+<link type="image/png" th:href="@{/images/table-16x16.png}" rel="icon"
+	sizes="16x16" />
+<link type="image/png" th:href="@{/images/table-32x32.png}" rel="icon"
+	sizes="32x32" />
+<link type="image/png" th:href="@{/images/table-48x48.png}" rel="icon"
+	sizes="48x48" />
+
+<link rel="stylesheet"
+	th:href="@{/lib/bootstrap-3.3.7/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/access.css}" />
+</head>
+<body>
+	<input type="hidden" id="csrfParameterName"
+		th:value="${_csrf.parameterName}" />
+	<input type="hidden" id="csrfToken" th:value="${_csrf.token}" />
+
+	<div class="container">
+
+		<div class="row hidden-print">
+
+			<div class="col-sm-6" style="margin-top: 1em; text-align: left;">
+				<a
+					th:href="${@environment.getProperty('net.wmfs.cas.client.contextRootUrl')}">Go
+					Home</a>
+			</div>
+			<div class="col-sm-6" style="margin-top: 1em; text-align: right;">
+				<span sec:authentication="principal.displayName"></span> | <a
+					th:href="${@environment.getProperty('net.wmfs.cas.server.secureUrl') + '/logout'}">Log
+					out</a>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<h2>Activity Assistant Access - 404 Error</h2>
+			<h3>Page not found</h3>
+		</div>
+
+		<table class="table table-hover">
+
+			<tbody>
+				<tr>
+					<td>TimeStamp</td>
+					<td th:text="${error.timestamp}"></td>
+				</tr>
+				<tr>
+					<td>Status</td>
+					<td th:text="${error.status}"></td>
+				</tr>
+				<tr>
+					<td>Message</td>
+					<td th:text="${error.message}"></td>
+				</tr>
+				<tr>
+					<td>Error</td>
+					<td th:text="${error.error}"></td>
+				</tr>
+				<tr>
+					<td>Path</td>
+					<td th:text="${error.path}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+	<script type="text/javascript" th:src="@{/lib/jquery-3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/access.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/lib/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>
